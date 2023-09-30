@@ -12,27 +12,10 @@ export async function getEmbeddings(text: string) {
       model: "text-embedding-ada-002",
       input: text.replace(/\n/g, " "),
     });
-
-    if (!response.ok) {
-      throw new Error(
-        `OpenAI API request failed with status: ${response.status}`
-      );
-    }
-
     const result = await response.json();
-
-    if (
-      result &&
-      result.data &&
-      result.data.length > 0 &&
-      result.data[0].embedding
-    ) {
-      return result.data[0].embedding as number[];
-    } else {
-      throw new Error("Embedding data not found");
-    }
+    return result.data[0].embedding as number[];
   } catch (error) {
-    console.log("error calling openai embeddings api");
+    console.log("error calling openai embeddings api", error);
     throw error;
   }
 }
