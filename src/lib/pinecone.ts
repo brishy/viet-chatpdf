@@ -56,7 +56,7 @@ export async function loadS3IntoPinecone(fileKey: string) {
     return documents[0];
   } catch (error) {
     console.error("Error:", error);
-    return null; // Or handle the error in a way that makes sense for your application
+    return null;
   }
 }
 

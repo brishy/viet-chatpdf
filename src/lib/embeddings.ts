@@ -8,6 +8,7 @@ const openai = new OpenAIApi(config);
 
 export async function getEmbeddings(text: string) {
   try {
+    console.log("Calling openai.createEmbedding with text:", text);
     const response = await openai.createEmbedding({
       model: "text-embedding-ada-002",
       input: text.replace(/\n/g, " "),
@@ -15,7 +16,7 @@ export async function getEmbeddings(text: string) {
     const result = await response.json();
     return result.data[0].embedding as number[];
   } catch (error) {
-    console.log("error calling openai embeddings api", error);
+    console.log("Error calling openai embeddings api:", error);
     throw error;
   }
 }
