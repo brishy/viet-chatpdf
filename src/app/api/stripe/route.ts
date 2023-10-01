@@ -45,10 +45,11 @@ export async function GET() {
           price_data: {
             currency: "AUD",
             product_data: {
-              name: "ChatPDF Pro",
-              description: "Unlimited PDF sessions!",
+              name: "Viet's ChatPDF",
+              description:
+                "If you liked using my application, consider buying me a banh mi! :)",
             },
-            unit_amount: 2000,
+            unit_amount: 1000,
             recurring: {
               interval: "month",
             },
