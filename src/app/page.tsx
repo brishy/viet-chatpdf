@@ -8,8 +8,11 @@ import SubscriptionButton from "@/components/SubscriptionButton";
 import { db } from "@/lib/db";
 import { chats } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
+import { headers } from "next/headers";
+import Script from "next/script";
 
 export default async function Home() {
+  const nonce = headers().get("x-nonce");
   const { userId } = await auth();
   const isAuth = !!userId;
   const isPro = await checkSubscription();
@@ -22,6 +25,11 @@ export default async function Home() {
   }
   return (
     <div className="w-screen min-h-screen bg-gradient-to-r from-rose-100 to-teal-100">
+      <Script
+        src="https://www.googletagmanager.com/gtag/js"
+        strategy="afterInteractive"
+        nonce={nonce ?? undefined}
+      />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
         <div className="flex flex-col items-center text-center">
           <div className="flex items-center">
