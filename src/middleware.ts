@@ -1,44 +1,12 @@
 import { authMiddleware } from "@clerk/nextjs";
-import { NextRequest, NextResponse } from "next/server";
 
-export function middleware(request: NextRequest) {
-  const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
-  const cspHeader = `
-    default-src 'self';
-    script-src 'self' 'nonce-${nonce}' 'strict-dynamic';
-    style-src 'self' 'nonce-${nonce}';
-    img-src 'self' blob: data:;
-    font-src 'self';
-    object-src 'none';
-    base-uri 'self';
-    form-action 'self';
-    frame-ancestors 'none';
-    block-all-mixed-content;
-    upgrade-insecure-requests;
-`;
-
-  const requestHeaders = new Headers(request.headers);
-  requestHeaders.set("x-nonce", nonce);
-  requestHeaders.set(
-    "Content-Security-Policy",
-    // Replace newline characters and spaces
-    cspHeader.replace(/\s{2,}/g, " ").trim()
-  );
-
-  return authMiddleware({
-    publicRoutes: ["/", "/api/webhook"],
-    beforeAuth: (req) => {
-      return NextResponse.next({
-        headers: requestHeaders,
-        request: {
-          headers: requestHeaders,
-        },
-      });
-    },
-  });
-  request;
-}
+// This example protects all routes including api/trpc routes
+// Please edit this to allow other routes to be public as needed.
+// See https://clerk.com/docs/references/nextjs/auth-middleware for more information about configuring your middleware
+export default authMiddleware({
+  publicRoutes: ["/", "/api/webhook"],
+});
 
 export const config = {
   matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
-}; //middleware.ts
+};
